@@ -1,0 +1,313 @@
+/* Muhanga TVET School - white and black only, no lines */
+
+/* Colours and fonts (change here only) */
+
+:root {
+  --paper: #F8F9FA;   /* page and card background */
+  --ink: #212529;     /* all text */
+  --shadow: 0 2px 14px rgba(0, 0, 0, 0.09); /* soft edge for cards, no lines */
+  --heading-font: "Montserrat", Arial, sans-serif;
+  --body-font: "Inter", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Smooth jump links (off for people who prefer less motion) */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body-font);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* One centred column, like a sheet of paper */
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 20px 96px;
+}
+
+/* Space between sections */
+
+.section {
+  padding: 36px 0;
+}
+
+.section:first-child {
+  padding-top: 16px;
+}
+
+/* Text */
+
+h1, h2, h3, h4 {
+  font-family: var(--heading-font);
+  line-height: 1.25;
+  margin: 0 0 12px;
+}
+
+h1 { font-size: 34px; font-weight: 700; }
+h2 { font-size: 26px; font-weight: 700; margin-bottom: 20px; }
+h3 { font-size: 19px; font-weight: 600; }
+h4 { font-size: 16px; font-weight: 600; }
+
+p {
+  margin: 0 0 12px;
+}
+
+a {
+  color: inherit;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.label {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 14px;
+}
+
+.strong {
+  font-weight: 600;
+}
+
+/* Key numbers stand out in bold */
+
+.big {
+  font-family: var(--heading-font);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Cards: one column on phones */
+
+.cards {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: var(--paper);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.card h3,
+.card h4 {
+  margin-top: 0;
+}
+
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+/* Trade levels: plain text */
+
+.levels {
+  margin: 0;
+}
+
+/* Simple lists, no lines */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list li {
+  padding: 8px 0;
+}
+
+/* Label and value rows (fees, banks) */
+
+.rows {
+  margin: 16px 0 0;
+}
+
+.rows div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.rows dt {
+  margin: 0;
+}
+
+.rows dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+  word-break: break-all;
+}
+
+.rows .sum {
+  margin-top: 8px;
+  padding-top: 16px;
+  font-weight: 700;
+}
+
+.rows .sum dd {
+  font-weight: 700;
+}
+
+/* Banks sit on the paper, no card */
+
+.rows.plain {
+  margin-top: 0;
+}
+
+/* Contact number */
+
+#contact-title + .big a {
+  text-decoration: none;
+}
+
+/* Notebooks finder */
+
+.finder {
+  display: grid;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.field-label {
+  display: block;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.controls .field-label + select + .field-label,
+.controls select + .field-label {
+  margin-top: 24px;
+}
+
+/* Trade dropdown */
+
+select {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 16px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  border: 0;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+/* Level buttons: L3, L4, L5 */
+
+.levels-pick {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.levels-pick button {
+  min-height: 52px;
+  font-family: var(--heading-font);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--paper);
+  border: 0;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.levels-pick button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+select:focus-visible,
+.levels-pick button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Result card */
+
+.result {
+  display: flex;
+  align-items: center;
+  min-height: 170px;
+}
+
+.result > * {
+  width: 100%;
+}
+
+.result .big {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+.result h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.specs {
+  font-weight: 600;
+  margin: 0;
+}
+
+.hint {
+  margin: 0;
+}
+
+/* Tablet */
+
+@media (min-width: 640px) {
+  body { font-size: 18px; }
+
+  .page { padding: 48px 32px 120px; }
+  .section { padding: 48px 0; }
+
+  h1 { font-size: 46px; }
+  h2 { font-size: 30px; }
+
+  .cards { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .card.wide { grid-column: 1 / -1; }
+}
+
+/* Wide tablet and desktop: controls beside the result */
+
+@media (min-width: 760px) {
+  .finder {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 32px;
+  }
+}
+
+/* Desktop */
+
+@media (min-width: 960px) {
+  .cards:not(.two) { grid-template-columns: repeat(3, 1fr); }
+  .cards.two { grid-template-columns: repeat(2, 1fr); }
+}
