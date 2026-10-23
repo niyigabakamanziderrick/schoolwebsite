@@ -1,6 +1,6 @@
 /* Muhanga TVET School - white and black only, no lines */
 
-/* Colours and fonts (change here only) */
+/* Colours, fonts and spacing (change here only) */
 
 :root {
   --paper: #F8F9FA;   /* page and card background */
@@ -8,6 +8,11 @@
   --shadow: 0 2px 14px rgba(0, 0, 0, 0.09); /* soft edge for cards, no lines */
   --heading-font: "Montserrat", Arial, sans-serif;
   --body-font: "Inter", Arial, sans-serif;
+
+  /* Space between sections grows with the screen: phone, tablet, desktop */
+  --section-space: 64px;
+  --gap: 16px;
+  --card-pad: 24px;
 }
 
 * {
@@ -18,6 +23,7 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -30,7 +36,7 @@ body {
   color: var(--ink);
   font-family: var(--body-font);
   font-size: 17px;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 /* One centred column, like a sheet of paper */
@@ -38,17 +44,17 @@ body {
 .page {
   max-width: 960px;
   margin: 0 auto;
-  padding: 32px 20px 96px;
+  padding: 40px 20px 112px;
 }
 
-/* Space between sections */
+/* Space between sections: one clear block of white between each topic */
 
 .section {
-  padding: 36px 0;
+  padding: var(--section-space) 0 0;
 }
 
 .section:first-child {
-  padding-top: 16px;
+  padding-top: 0;
 }
 
 /* Text */
@@ -59,13 +65,19 @@ h1, h2, h3, h4 {
   margin: 0 0 12px;
 }
 
-h1 { font-size: 34px; font-weight: 700; }
-h2 { font-size: 26px; font-weight: 700; margin-bottom: 20px; }
+h1 { font-size: clamp(32px, 8vw, 48px); font-weight: 700; margin-bottom: 20px; }
+h2 { font-size: clamp(24px, 5vw, 32px); font-weight: 700; margin-bottom: 28px; }
 h3 { font-size: 19px; font-weight: 600; }
 h4 { font-size: 16px; font-weight: 600; }
 
 p {
   margin: 0 0 12px;
+}
+
+/* Keep lines of text a comfortable length on wide screens */
+
+.section > p {
+  max-width: 60ch;
 }
 
 a {
@@ -80,8 +92,9 @@ a:focus-visible {
 .label {
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   font-size: 14px;
+  margin-bottom: 8px;
 }
 
 .strong {
@@ -97,18 +110,39 @@ a:focus-visible {
   line-height: 1.3;
 }
 
+/* School name block: a little more air between its lines */
+
+header.section p {
+  margin-bottom: 8px;
+}
+
+header.section .strong {
+  margin-top: 12px;
+}
+
+/* Clear gap between the admissions line and the contact block */
+
+header.section .contact-label {
+  margin-top: 40px;
+  margin-bottom: 4px;
+}
+
+header.section .contact-line {
+  margin-top: 4px;
+}
+
 /* Cards: one column on phones */
 
 .cards {
   display: grid;
-  gap: 16px;
+  gap: var(--gap);
 }
 
 .card {
   background: var(--paper);
   border-radius: 12px;
   box-shadow: var(--shadow);
-  padding: 24px;
+  padding: var(--card-pad);
 }
 
 .card h3,
@@ -126,6 +160,25 @@ a:focus-visible {
   margin: 0;
 }
 
+/* Trades: small cards, only the trade name and levels */
+
+.cards.compact {
+  gap: 12px;
+}
+
+.cards.compact .card {
+  padding: 14px 16px;
+}
+
+.cards.compact h3 {
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.cards.compact .levels {
+  font-size: 14px;
+}
+
 /* Simple lists, no lines */
 
 .list {
@@ -141,12 +194,13 @@ a:focus-visible {
 /* Label and value rows (fees, banks) */
 
 .rows {
-  margin: 16px 0 0;
+  margin: 20px 0 0;
 }
 
 .rows div {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   gap: 16px;
   padding: 8px 0;
 }
@@ -178,10 +232,72 @@ a:focus-visible {
   margin-top: 0;
 }
 
-/* Contact number */
+.rows.plain div {
+  align-items: center;
+  padding: 12px 0;
+}
 
-#contact-title + .big a {
+/* Bank row: account number and its Copy button side by side */
+
+.rows.plain dd {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Contact number and its Copy button */
+
+.contact-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.contact-line .big {
+  margin: 0;
+}
+
+.contact-line a {
   text-decoration: none;
+}
+
+/* Copy button: same look as the level buttons (paper, soft shadow, no line) */
+
+.copy {
+  flex: none;
+  min-height: 44px;
+  padding: 8px 18px;
+  font-family: var(--heading-font);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--paper);
+  border: 0;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.copy[hidden] {
+  display: none;
+}
+
+.copy.done {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.copy:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Copy list button under the boarding requirements */
+
+.list-copy {
+  margin-top: 20px;
 }
 
 /* Notebooks finder */
@@ -189,18 +305,18 @@ a:focus-visible {
 .finder {
   display: grid;
   gap: 24px;
-  margin-top: 24px;
+  margin-top: 28px;
 }
 
 .field-label {
   display: block;
   font-weight: 600;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 }
 
 .controls .field-label + select + .field-label,
 .controls select + .field-label {
-  margin-top: 24px;
+  margin-top: 28px;
 }
 
 /* Trade dropdown */
@@ -262,7 +378,7 @@ select:focus-visible,
 }
 
 .result .big {
-  font-size: 38px;
+  font-size: clamp(30px, 8vw, 38px);
   margin-bottom: 8px;
 }
 
@@ -280,18 +396,42 @@ select:focus-visible,
   margin: 0;
 }
 
+/* Small phones: bank name above its number so nothing is squeezed */
+
+@media (max-width: 479px) {
+  .rows.plain div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .rows.plain dd {
+    justify-content: space-between;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Phones that are a little wider: trades in two columns */
+
+@media (min-width: 380px) {
+  .cards.compact { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* Tablet */
 
 @media (min-width: 640px) {
+  :root {
+    --section-space: 88px;
+    --gap: 20px;
+  }
+
   body { font-size: 18px; }
 
-  .page { padding: 48px 32px 120px; }
-  .section { padding: 48px 0; }
+  .page { padding: 56px 32px 128px; }
 
-  h1 { font-size: 46px; }
-  h2 { font-size: 30px; }
-
-  .cards { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .cards { grid-template-columns: repeat(2, 1fr); }
+  .cards.compact { grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .card.wide { grid-column: 1 / -1; }
 }
 
@@ -308,6 +448,15 @@ select:focus-visible,
 /* Desktop */
 
 @media (min-width: 960px) {
-  .cards:not(.two) { grid-template-columns: repeat(3, 1fr); }
+  :root {
+    --section-space: 104px;
+    --gap: 24px;
+    --card-pad: 28px;
+  }
+
+  .page { padding: 72px 32px 144px; }
+
+  .cards:not(.two):not(.compact) { grid-template-columns: repeat(3, 1fr); }
   .cards.two { grid-template-columns: repeat(2, 1fr); }
+  .cards.compact { gap: 16px; }
 }

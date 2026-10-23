@@ -27,13 +27,21 @@
       <p>Muhanga District, Southern Province</p>
       <p class="strong">Year 2027 – 2028</p>
       <p>Admissions are open in all trades.</p>
+
+      <!-- Contact, right under admissions -->
+
+      <p class="strong contact-label">Contact us</p>
+      <div class="contact-line">
+        <p class="big"><a href="tel:0794948271">0794948271</a></p>
+        <button type="button" class="copy" data-copy="0794948271" aria-label="Copy phone number" aria-live="polite" hidden>Copy</button>
+      </div>
     </header>
 
     <!-- 2. Trades -->
 
     <section class="section" aria-labelledby="trades-title">
       <h2 id="trades-title">Trades</h2>
-      <div class="cards">
+      <div class="cards compact">
         <article class="card">
           <h3>Software Development</h3>
           <p class="levels">L3, L4, L5</p>
@@ -124,22 +132,31 @@
       </div>
     </section>
 
-    <!-- 6. Banks -->
+    <!-- 6. Banks (each account number has a Copy button) -->
 
     <section class="section" aria-labelledby="banks-title">
       <h2 id="banks-title">Banks you can pay school fees into</h2>
       <dl class="rows plain">
-        <div><dt>Bank of Kigali (BK)</dt><dd>000040006588939446</dd></div>
-        <div><dt>Equity Bank</dt><dd>2234979907379</dd></div>
-        <div><dt>BPR</dt><dd>4419373929</dd></div>
+        <div>
+          <dt>Bank of Kigali (BK)</dt>
+          <dd><span>000040006588939446</span><button type="button" class="copy" data-copy="000040006588939446" aria-label="Copy Bank of Kigali account number" aria-live="polite" hidden>Copy</button></dd>
+        </div>
+        <div>
+          <dt>Equity Bank</dt>
+          <dd><span>2234979907379</span><button type="button" class="copy" data-copy="2234979907379" aria-label="Copy Equity Bank account number" aria-live="polite" hidden>Copy</button></dd>
+        </div>
+        <div>
+          <dt>BPR</dt>
+          <dd><span>4419373929</span><button type="button" class="copy" data-copy="4419373929" aria-label="Copy BPR account number" aria-live="polite" hidden>Copy</button></dd>
+        </div>
       </dl>
     </section>
 
-    <!-- 7. Boarding requirements -->
+    <!-- 7. Boarding requirements (one Copy button copies the whole list) -->
 
     <section class="section" aria-labelledby="bring-title">
       <h2 id="bring-title">Boarding requirements</h2>
-      <ul class="list">
+      <ul class="list" id="bring-list">
         <li>Bucket</li>
         <li>Bed sheets and blanket</li>
         <li>Mosquito net</li>
@@ -147,6 +164,7 @@
         <li>Black shoes</li>
         <li>White socks</li>
       </ul>
+      <button type="button" class="copy list-copy" data-copy-list="bring-list" aria-label="Copy boarding requirements list" aria-live="polite" hidden>Copy list</button>
     </section>
 
     <!-- 8. Notebooks: choose trade, choose level, see result -->
@@ -208,15 +226,18 @@
 
     <section class="section" aria-labelledby="contact-title">
       <h2 id="contact-title">Contact us</h2>
-      <p class="big"><a href="tel:0794948271">0794948271</a></p>
+      <div class="contact-line">
+        <p class="big"><a href="tel:0794948271">0794948271</a></p>
+        <button type="button" class="copy" data-copy="0794948271" aria-label="Copy phone number" aria-live="polite" hidden>Copy</button>
+      </div>
     </section>
 
   </main>
 
-  <!-- Notebook finder: shows the number for the chosen trade and level -->
-
   <script>
     (function () {
+
+      // ---------- Notebook finder: shows the number for the chosen trade and level ----------
 
       // Notebooks per trade: L3, L4, L5
 
@@ -261,8 +282,67 @@
           show();
         });
       });
+
+      // ---------- Copy buttons ----------
+
+      // Copy text: modern way first, older way as backup
+
+      function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(text);
+        }
+        return new Promise(function (resolve, reject) {
+          var box = document.createElement("textarea");
+          box.value = text;
+          box.setAttribute("readonly", "");
+          box.style.position = "fixed";
+          box.style.opacity = "0";
+          document.body.appendChild(box);
+          box.select();
+          try {
+            document.execCommand("copy") ? resolve() : reject();
+          } catch (e) {
+            reject();
+          }
+          document.body.removeChild(box);
+        });
+      }
+
+      // What a button should copy: its own text, or every item of a list
+
+      function textFor(btn) {
+        var listId = btn.getAttribute("data-copy-list");
+        if (listId) {
+          var items = document.querySelectorAll("#" + listId + " li");
+          return Array.prototype.map.call(items, function (li) {
+            return li.textContent.trim();
+          }).join("\n");
+        }
+        return btn.getAttribute("data-copy");
+      }
+
+      // Show the buttons (they stay hidden if JavaScript is off) and wire them up
+
+      document.querySelectorAll(".copy").forEach(function (btn) {
+        var original = btn.textContent;
+        var timer;
+        btn.hidden = false;
+
+        btn.addEventListener("click", function () {
+          copyText(textFor(btn)).then(function () {
+            btn.textContent = "Copied";
+            btn.classList.add("done");
+          }, function () {
+            btn.textContent = "Try again";
+          });
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            btn.textContent = original;
+            btn.classList.remove("done");
+          }, 2000);
+        });
+      });
     })();
-    
   </script>
 </body>
 </html>
